@@ -134,11 +134,20 @@ function contentSetup(counter, title, serve, calories, image, url, healthlabel, 
         `)
 }
 
-function apiCall(search) {
+function apiCall(search, finalDiet, finalLabel) {
 
     $('.header').css("display", "none")
 
-    queryURL = `https://api.edamam.com/search?q=${search}&app_id=${id}&app_key=${appKey}&from=${callMin}&to=${callMax}`
+    if (finalDiet) {
+        if (finalLabel) {
+            queryURL = `https://api.edamam.com/search?q=${search}&app_id=${id}&app_key=${appKey}&from=${callMin}&to=${callMax}&diet=${finalDiet}&health=${finalLabel}`
+        }
+        else{
+            queryURL = `https://api.edamam.com/search?q=${search}&app_id=${id}&app_key=${appKey}&from=${callMin}&to=${callMax}&diet=${finalDiet}`
+        }
+    }else{
+        queryURL = `https://api.edamam.com/search?q=${search}&app_id=${id}&app_key=${appKey}&from=${callMin}&to=${callMax}`
+    }
 
     $.ajax({
         url: queryURL,
@@ -291,16 +300,16 @@ $("#search").click(function () {
     if ((search == "Keywords..." || search == undefined) && finalFood == undefined) {
         alert("You need to enter atleast a keyword or check a 'Type of Food' checkbox")
     } else if (finalFood == undefined) {
-        apiCall(search) //individual testing call; need to move to end of function when done
+        // apiCall(search) //individual testing call; need to move to end of function when done
     } else if (search == "Keywords..." || search == undefined) {
         // console.log("Will Run CheckBox Search")
         search = finalFood
         // console.log(search)
-        apiCall(search) //individual testing call; need to move to end of function when done
+        // apiCall(search) //individual testing call; need to move to end of function when done
     } else {
         search += "+" + finalFood //adding both search keyword and checkbox criteria
         // console.log(search)
-        apiCall(search) //individual testing call; need to move to end of function when done
+        // apiCall(search) //individual testing call; need to move to end of function when done
     }
 
     for (a = 0; a < callDiet.length; a++) {
@@ -312,6 +321,7 @@ $("#search").click(function () {
         }
     }
 
+    apiCall(search, finalDiet, finalLabel)
     firebaseLog(search)
     // console.log(finalDiet)
     // if(finalDiet == undefined){
