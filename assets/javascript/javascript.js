@@ -115,7 +115,7 @@ function navSetup() {
     $('.3rd').append(`<div class="subFoot healthMore">SEE MORE</div>`)
 }
 
-function contentSetup(counter, title, serve, calories, image, url, healthlabel, ingredient) {
+function contentSetup(counter, title, serve, calories, image, url, healthlabel, ingredient, dietLabel) {
     $('.searchContent').append(`
         <div class="col-sm-12 hiddenItem">
             <div class="col-sm-3"><img class="foodImg" src="${image}"></img></div>
@@ -125,6 +125,7 @@ function contentSetup(counter, title, serve, calories, image, url, healthlabel, 
                       <div>Serving Size: ${serve}</div>
                       <div>Calories per Serving: ${calories}</div>
                       <div>Health Labels: ${healthlabel}</div>
+                      <div>Dietary: ${dietLabel}</div>
                       <div><input class="contentBtn" type="submit" value="SEE FULL RECEIPE" onclick="window.open('${url}')"></input></div>
                       <div><input type="submit" value="OPEN INGREDIENTS LIST"></input></div>
                       <div>${ingredient}</div>
@@ -182,6 +183,7 @@ function apiCall(search, finalDiet, finalLabel) {
 
             var ingredient;
             var healthlabel;
+            var dietLabel;
 
             for (ingCounter = 0; ingCounter < response.hits[counter].recipe.ingredientLines.length; ingCounter++) {
                 if (ingredient == undefined) {
@@ -200,8 +202,18 @@ function apiCall(search, finalDiet, finalLabel) {
                     healthlabel += `<small>${response.hits[counter].recipe.healthLabels[healthCounter]}</small>`
                 }
             }
-            contentSetup(counter, title, serve, calories, image, url, healthlabel, ingredient)
+
+            for (dietCounter = 0; dietCounter < response.hits[counter].recipe.dietLabels.length; dietCounter++) {
+                if (dietLabel == undefined) {
+                    dietLabel = `<small>${response.hits[counter].recipe.dietLabels[dietCounter]}</small>`
+                }
+                else {
+                    dietLabel += `<small>${response.hits[counter].recipe.dietLabels[dietCounter]}</small>`
+                }
+            }
+            contentSetup(counter, title, serve, calories, image, url, healthlabel, ingredient, dietLabel)
             healthlabel = undefined // Resetting healthLabel for next iteration of labels
+            dietLabel = undefined
             ingredient = undefined // Resetting ingredient for next iteration of labels
         }
         $('.searchContent').append(`<div class="col-sm-12 moreResult">SEE 6 MORE RESULTS</div>`)
@@ -318,6 +330,15 @@ $("#search").click(function () {
         }
         else {
             finalDiet += "+" + callDiet
+        }
+    }
+
+    for (u = 0; u < callLabel.length; u++) {
+        if (callLabel.length = 1) {
+            finalLabel = callLabel
+        }
+        else {
+            finalLabel += "+" + callLabel
         }
     }
 
