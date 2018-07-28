@@ -127,7 +127,7 @@ function contentSetup(counter, title, serve, calories, image, url, healthlabel, 
                       <div>Health Labels: ${healthlabel}</div>
                       <div>Dietary: ${dietLabel}</div>
                       <div><input class="contentBtn" type="submit" value="SEE FULL RECEIPE" onclick="window.open('${url}')"></input></div>
-                      <div><input type="submit" value="OPEN INGREDIENTS LIST"></input></div>
+                      <!-- <div><input type="submit" value="OPEN INGREDIENTS LIST"></input></div> -->
                       <div>${ingredient}</div>
                  </div>
             </div>
@@ -479,11 +479,13 @@ function firebaseLog(search) {
     // database.ref().on("value", function (snapshot) {
     //     //something here to call the database infos
     // });
-
+var clickCounter;
     database.ref().child(search).once("value", function (snapshot) {
         // var counter = snapshot.val().count()
         if (snapshot.exists()) {
-            console.log("Exist")
+            clickCounter = snapshot.child(search).count
+            clickCounter++
+            console.log(clickCounter)
         }
         else {
             database.ref().child(search).set({
