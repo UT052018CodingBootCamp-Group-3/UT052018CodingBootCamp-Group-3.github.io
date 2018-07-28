@@ -453,8 +453,6 @@ function firebaseLog(search) {
         // var counter = snapshot.val().count()
         if (snapshot.exists()) {
             console.log("Exist")
-
-
         }
         else {
             database.ref().child(search).set({
@@ -481,7 +479,7 @@ function remove(arr) { //Custom Remove Function for array
 }
 
 
-// dataWord() // NEED THIS; RECOMMENT WHEN DONE
+dataWord() // NEED THIS; RECOMMENT WHEN DONE
 navSetup()
 // firebaseLog()
 // apiCall("rice") // TESTING CALL WIHTOUT TYPING

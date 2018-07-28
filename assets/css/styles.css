@@ -58,6 +58,8 @@ body{
     font-family: CustomFontCursive;
     padding-left: 50px;
     display: block;
+    height: 500px;
+    background-color: white;
 }
 
 .subHead{
@@ -119,6 +121,16 @@ body{
     background-color: white;
     padding: 15px;
     margin: 0px; 
+}
+
+.contentFit{
+    padding: 50px 20px;
+    margin: auto;
+}
+
+p{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 15px;
 }
 
 .form-check{
